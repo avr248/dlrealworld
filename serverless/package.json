@@ -1,0 +1,10 @@
+{
+  "name": "lambda-example",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "dependencies": {
+    "btoa": "^1.2.1",
+    "cross-fetch": "^3.0.4"
+  }
+}

@@ -1,0 +1,41 @@
+# The `service` block is the name of the service
+service: ShopifyApiService
+
+# The `provider` block defines where your service will be deployed
+custom:
+  bucket: avr248shopifyapi
+provider:
+  name: aws
+  runtime: nodejs10.x
+  region: eu-west-1
+  stackName: shopifyApi
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+       - "s3:PutObject"  
+      Resource: 
+        - "arn:aws:s3:::${self:custom.bucket}/*" 
+
+# The `functions` block defines what code to deploy
+functions:
+  UploadImage:
+    handler: uploadImage.handler
+    # The `events` block defines how to trigger the uploadImage.handler code
+    events:
+      - http:
+          path: upload
+          method: post
+          cors: true
+    environment:
+      Bucket: ${self:custom.bucket}  
+          
+resources:
+  Resources:
+    StorageBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: ${self:custom.bucket}
+    
+ 
+
+
